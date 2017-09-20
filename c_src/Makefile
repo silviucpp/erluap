@@ -3,8 +3,6 @@ PROJECT_NIF_NAME=erluap_nif
 
 include nif.mk
 
-#$(brew --prefix openssl)
-
 ifeq ($(UNAME_SYS), darwin)
     BOOST_ROOT := $(shell brew --prefix boost)
     YAML_CPP_ROOT := $(shell brew --prefix yaml-cpp)
