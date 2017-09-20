@@ -1,8 +1,4 @@
-# erl_uap
-
-This is the Erlang implementation of [ua-parser][1].
-
-The implementation is a NIF wrapper around [uap-cpp][2]. 
+This is the Erlang implementation of [ua-parser][1]. The implementation is a NIF wrapper around [uap-cpp][2]. 
 
 ### Getting started:
 
@@ -92,7 +88,7 @@ the method `erluap:is_spider/1`
 
 ### Tests
 
-In order to run the tests just use `make ct` from project root after you compiled and got the deps (`rebar get-deps && rebar compile`)
+In order to run the tests just use `make ct` from project root after you compiled and got the deps using `rebar`
 
 [1]:https://github.com/ua-parser
 [2]:https://github.com/ua-parser/uap-cpp
