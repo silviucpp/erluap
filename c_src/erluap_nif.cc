@@ -40,24 +40,32 @@ int on_nif_load(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
     return 0;
 }
 
+ERL_NIF_TERM make_bin_or_null(ErlNifEnv* env, const std::string& v)
+{
+    if(v.empty())
+        return ATOMS.atomNull;
+
+    return make_binary(env, v.c_str(), v.length());
+}
+
 ERL_NIF_TERM create_device(ErlNifEnv* env, const Device& d)
 {
     return enif_make_tuple4(env,
                             ATOMS.atomDevice,
-                            make_binary(env, d.family),
-                            make_binary(env, d.model),
-                            make_binary(env, d.brand));
+                            make_bin_or_null(env, d.family),
+                            make_bin_or_null(env, d.model),
+                            make_bin_or_null(env, d.brand));
 }
 
 ERL_NIF_TERM create_agent(ErlNifEnv* env, const Agent& a)
 {
     return enif_make_tuple6(env,
                             ATOMS.atomAgent,
-                            make_binary(env, a.family),
-                            make_binary(env, a.major),
-                            make_binary(env, a.minor),
-                            make_binary(env, a.patch),
-                            make_binary(env, a.patch_minor));
+                            make_bin_or_null(env, a.family),
+                            make_bin_or_null(env, a.major),
+                            make_bin_or_null(env, a.minor),
+                            make_bin_or_null(env, a.patch),
+                            make_bin_or_null(env, a.patch_minor));
 }
 
 ERL_NIF_TERM nif_parse(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
