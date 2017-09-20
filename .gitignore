@@ -1,0 +1,9 @@
+# Created by .ignore support plugin (hsz.mobi)
+/.idea/
+/.rebar/
+/DerivedData/
+/ebin/
+/priv/
+/deps/
+/erluap_nif.xcodeproj
+*.iml
