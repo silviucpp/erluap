@@ -7,3 +7,4 @@
 /deps/
 /erluap_nif.xcodeproj
 *.iml
+/log/
