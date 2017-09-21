@@ -27,12 +27,8 @@ load_nif() ->
 get_priv_path(File) ->
     case code:priv_dir(erl_uap) of
         {error, bad_name} ->
-            case filelib:is_dir(filename:join(["..", priv])) of
-                true ->
-                    filename:join(["..", priv, File]);
-                false ->
-                    filename:join([priv, File])
-            end;
+			Ebin = filename:dirname(code:which(?MODULE)),
+			filename:join([filename:dirname(Ebin), "priv", File]);
         Dir ->
             filename:join(Dir, File)
     end.
