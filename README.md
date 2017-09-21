@@ -16,6 +16,13 @@ brew install boost
 brew install yaml-cpp
 ``` 
 
+On Ubuntu:
+
+```bash
+sudo apt-get install libyaml-cpp-dev
+sudo apt-get install libboost-regex-dev
+```
+
 ##### Integration
 
 The application is compatible with both `rebar` or `rebar3`. Add `erluap` as a rebar dependency to your project:

@@ -57,7 +57,7 @@ function DownloadLibs()
 	popd
 }
 
-function BuildLib()
+function CopyFiles()
 {
     #links to ua-cpp files
 
@@ -72,9 +72,9 @@ function BuildLib()
 	mkdir -p priv
 	pushd priv
 	rm regexes.yaml
-	ln -s ../$DEPS_LOCATION/$UAP_CORE_DESTINATION/regexes.yaml regexes.yaml
+	cp ../$DEPS_LOCATION/$UAP_CORE_DESTINATION/regexes.yaml regexes.yaml
 	popd
 }
 
 DownloadLibs
-BuildLib
+CopyFiles
