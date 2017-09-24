@@ -20,5 +20,5 @@ ifeq ($(UNAME_SYS), darwin)
 				-Wl,-U,_enif_make_tuple
 endif
 
-CXXFLAGS += -DNDEBUG -g -Wextra -Werror -Wno-missing-field-initializers -fno-rtti -std=c++11
+CXXFLAGS += -DNDEBUG -g -Wextra -Werror -Wno-missing-field-initializers -std=c++11
 LDFLAGS += -lboost_regex -lyaml-cpp -lstdc++

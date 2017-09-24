@@ -2,6 +2,8 @@
 #include "nif_utils.h"
 #include "UaParser.h"
 
+#include <boost/exception/all.hpp>
+
 #define UNUSED(expr) do { (void)(expr); } while (0)
 
 const char kAtomNull[] = "null";
@@ -32,7 +34,7 @@ int on_nif_load(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
     {
         uap_ = new UserAgentParser(regexes_path);
     }
-    catch (const std::exception& ex)
+    catch (...)
     {
         return 1;
     }
@@ -89,6 +91,16 @@ ERL_NIF_TERM nif_parse(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     {
         return make_error(env, ex.what());
     }
+    catch (const boost::exception& e)
+    {
+        std::string error = boost::diagnostic_information_what(e);
+        return make_error(env, error.c_str());
+    }
+    catch (...)
+    {
+        return make_error(env, "unhandled exception");
+    }
+
 }
 
 static ErlNifFunc nif_funcs[] = {
