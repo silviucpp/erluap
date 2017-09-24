@@ -29,32 +29,32 @@ function fail_check
 
 function DownloadLibs()
 {
-	echo "uap-cpp repo=$UAP_CPP_REPO rev=$UAP_CPP_REV branch=$UAP_CPP_BRANCH"
+    echo "uap-cpp repo=$UAP_CPP_REPO rev=$UAP_CPP_REV branch=$UAP_CPP_BRANCH"
 
-	mkdir -p $DEPS_LOCATION
-	pushd $DEPS_LOCATION
+    mkdir -p $DEPS_LOCATION
+    pushd $DEPS_LOCATION
 
     #download uap-cpp
 
-	if [ ! -d "$UAP_CPP_DESTINATION" ]; then
-	    fail_check git clone -b $UAP_CPP_BRANCH $UAP_CPP_REPO $UAP_CPP_DESTINATION
+    if [ ! -d "$UAP_CPP_DESTINATION" ]; then
+        fail_check git clone -b $UAP_CPP_BRANCH $UAP_CPP_REPO $UAP_CPP_DESTINATION
     fi
 
-	pushd $UAP_CPP_DESTINATION
-	fail_check git checkout $UAP_CPP_REV
-	popd
+    pushd $UAP_CPP_DESTINATION
+    fail_check git checkout $UAP_CPP_REV
+    popd
 
-	#download uap-core
+    #download uap-core
 
-	if [ ! -d "$UAP_CORE_DESTINATION" ]; then
-	    fail_check git clone -b $UAP_CORE_BRANCH $UAP_CORE_REPO $UAP_CORE_DESTINATION
+    if [ ! -d "$UAP_CORE_DESTINATION" ]; then
+        fail_check git clone -b $UAP_CORE_BRANCH $UAP_CORE_REPO $UAP_CORE_DESTINATION
     fi
 
     pushd $UAP_CORE_DESTINATION
-	fail_check git checkout $UAP_CORE_REV
-	popd
+    fail_check git checkout $UAP_CORE_REV
+    popd
 
-	popd
+    popd
 }
 
 function CopyFiles()
@@ -63,17 +63,17 @@ function CopyFiles()
 
     pushd c_src
     rm UaParser.*
-	ln -s ../$DEPS_LOCATION/$UAP_CPP_DESTINATION/UaParser.cpp UaParser.cc
-	ln -s ../$DEPS_LOCATION/$UAP_CPP_DESTINATION/UaParser.h UaParser.h
-	popd
+    ln -s ../$DEPS_LOCATION/$UAP_CPP_DESTINATION/UaParser.cpp UaParser.cc
+    ln -s ../$DEPS_LOCATION/$UAP_CPP_DESTINATION/UaParser.h UaParser.h
+    popd
 
     #copy regex file
 
-	mkdir -p priv
-	pushd priv
-	rm regexes.yaml
-	cp ../$DEPS_LOCATION/$UAP_CORE_DESTINATION/regexes.yaml regexes.yaml
-	popd
+    mkdir -p priv
+    pushd priv
+    rm regexes.yaml
+    cp ../$DEPS_LOCATION/$UAP_CORE_DESTINATION/regexes.yaml regexes.yaml
+    popd
 }
 
 DownloadLibs
