@@ -13,7 +13,7 @@ const char kAtomDevice[] = "device";
 const char kAtomAgent[] = "agent";
 
 atoms ATOMS;
-static UserAgentParser* uap_ = NULL;
+static uap_cpp::UserAgentParser* uap_ = NULL;
 
 int on_nif_load(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
 {
@@ -32,7 +32,7 @@ int on_nif_load(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
 
     try
     {
-        uap_ = new UserAgentParser(regexes_path);
+        uap_ = new uap_cpp::UserAgentParser(regexes_path);
     }
     catch (...)
     {
@@ -50,7 +50,7 @@ ERL_NIF_TERM make_bin_or_null(ErlNifEnv* env, const std::string& v)
     return make_binary(env, v.c_str(), v.length());
 }
 
-ERL_NIF_TERM create_device(ErlNifEnv* env, const Device& d)
+ERL_NIF_TERM create_device(ErlNifEnv* env, const uap_cpp::Device& d)
 {
     return enif_make_tuple4(env,
                             ATOMS.atomDevice,
@@ -59,7 +59,7 @@ ERL_NIF_TERM create_device(ErlNifEnv* env, const Device& d)
                             make_bin_or_null(env, d.brand));
 }
 
-ERL_NIF_TERM create_agent(ErlNifEnv* env, const Agent& a)
+ERL_NIF_TERM create_agent(ErlNifEnv* env, const uap_cpp::Agent& a)
 {
     return enif_make_tuple6(env,
                             ATOMS.atomAgent,
@@ -84,7 +84,7 @@ ERL_NIF_TERM nif_parse(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
     try
     {
-        UserAgent ua = uap_->parse(user_agent);
+        uap_cpp::UserAgent ua = uap_->parse(user_agent);
         return enif_make_tuple3(env, create_device(env, ua.device), create_agent(env, ua.os), create_agent(env, ua.browser));
     }
     catch (const std::exception& ex)

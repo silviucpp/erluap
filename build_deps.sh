@@ -4,12 +4,12 @@ DEPS_LOCATION=deps
 
 UAP_CPP_REPO=https://github.com/ua-parser/uap-cpp.git
 UAP_CPP_BRANCH=master
-UAP_CPP_REV=c52cc74e1451cadbb25f688ab3450829570c5f1a
+UAP_CPP_REV=652edf2f5e285363d0a4391df922e91660be711c
 UAP_CPP_DESTINATION=uap-cpp
 
 UAP_CORE_REPO=https://github.com/ua-parser/uap-core.git
 UAP_CORE_BRANCH=master
-UAP_CORE_REV=89dffca1b59ba1691c14bf5ab927c33c6b196fa5
+UAP_CORE_REV=fc570f378e41063bad3bdf0532967743efc75b4b
 UAP_CORE_DESTINATION=uap-core
 
 if [ -f "$DEPS_LOCATION/$UAP_CPP_DESTINATION/UaParser.cpp" ] && [ -f "$DEPS_LOCATION/$UAP_CORE_DESTINATION/regexes.yaml" ]; then
