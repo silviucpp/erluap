@@ -1,6 +1,6 @@
 {application, erluap, [
     {description, "Erlang implementation of ua-parser based on uap-cpp"},
-    {vsn, "1.0"},
+    {vsn, "1.1"},
     {registered, []},
     {applications, [kernel, stdlib]},
     {env, []}
