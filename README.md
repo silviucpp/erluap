@@ -44,6 +44,7 @@ Records are described in `erluap.hrl` as follow:
 
 ```erlang
 -record(device, {
+    device_type   :: device_type(),
     family :: value(),
     model :: value(),
     brand :: value()
@@ -61,10 +62,11 @@ Records are described in `erluap.hrl` as follow:
 The parsing method returns a tuple as follow `{Device::#device{}, Os::#agent{}, Browser::#agent{}}` :
 
 ```erlang
-erluap:parse(<<"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0">>).
-{{device,<<"Other">>,null,null},
- {agent,<<"Windows 7">>,null,null,null,null},
- {agent,<<"Firefox">>,<<"47">>,<<"0">>,null,null}}
+erluap:parse(<<"Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148">>).
+
+{{device,mobile,<<"iPhone">>,<<"iPhone">>,<<"Apple">>},
+ {agent,<<"iOS">>,<<"12">>,<<"2">>,null,null},
+ {agent,<<"Mobile Safari UI/WKWebView">>,null,null,null,null}}
 ```
 
 ##### Parse as proplist
@@ -72,18 +74,21 @@ erluap:parse(<<"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101
 There is possible to parse the result as proplist using `erluap:parse_as_proplist/1` :
 
 ```erlang
-erluap:parse_as_proplist(<<"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0">>).
-[{device,[{family,<<"Other">>},{model,null},{brand,null}]},
- {os,[{family,<<"Windows 7">>},
-      {version_major,null},
-      {version_minor,null},
+erluap:parse_as_proplist(<<"Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148">>).
+[{device,[{device_type,mobile},
+          {family,<<"iPhone">>},
+          {model,<<"iPhone">>},
+          {brand,<<"Apple">>}]},
+ {os,[{family,<<"iOS">>},
+      {version_major,<<"12">>},
+      {version_minor,<<"2">>},
       {version_patch,null},
       {version_patch_minor,null}]},
- {browser,[{family,<<"Firefox">>},
-           {version_major,<<"47">>},
-           {version_minor,<<"0">>},
+ {browser,[{family,<<"Mobile Safari UI/WKWebView">>},
+           {version_major,null},
+           {version_minor,null},
            {version_patch,null},
-           {version_patch_minor,null}]}] 
+           {version_patch_minor,null}]}]
 ```
 
 ###### Check if a device is a crowler
@@ -98,4 +103,3 @@ In order to run the tests just use `make ct` from project root after you compile
 [1]:https://github.com/ua-parser
 [2]:https://github.com/ua-parser/uap-cpp
 [3]:https://github.com/ua-parser/uap-core
-
