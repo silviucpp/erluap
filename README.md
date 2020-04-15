@@ -12,8 +12,7 @@ In order to be able to compile properly make sure the following deps are availab
 On Mac Os you can install those using `brew` :
 
 ```bash
-brew install re2
-brew install yaml-cpp
+brew install re2 yaml-cpp
 ``` 
 
 On Ubuntu:
