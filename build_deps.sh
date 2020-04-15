@@ -4,15 +4,15 @@ DEPS_LOCATION=deps
 
 UAP_CPP_REPO=https://github.com/ua-parser/uap-cpp.git
 UAP_CPP_BRANCH=master
-UAP_CPP_REV=652edf2f5e285363d0a4391df922e91660be711c
+UAP_CPP_REV=ca5ae35b1c6dd1c988787d7503404bb340ff3600
 UAP_CPP_DESTINATION=uap-cpp
 
 UAP_CORE_REPO=https://github.com/ua-parser/uap-core.git
 UAP_CORE_BRANCH=master
-UAP_CORE_REV=fc570f378e41063bad3bdf0532967743efc75b4b
+UAP_CORE_REV=93946855b68e9b708d1fafdd5e4f8a25a6c2d50b
 UAP_CORE_DESTINATION=uap-core
 
-if [ -f "$DEPS_LOCATION/$UAP_CPP_DESTINATION/UaParser.cpp" ] && [ -f "$DEPS_LOCATION/$UAP_CORE_DESTINATION/regexes.yaml" ]; then
+if [ -f "$DEPS_LOCATION/$UAP_CPP_DESTINATION/libuaparser_cpp.a" ] && [ -f "$DEPS_LOCATION/$UAP_CORE_DESTINATION/regexes.yaml" ]; then
     echo "uap-cpp and uap-core fork already exist. delete them for a fresh checkout."
     exit 0
 fi
@@ -34,7 +34,7 @@ function DownloadLibs()
     mkdir -p $DEPS_LOCATION
     pushd $DEPS_LOCATION
 
-    #download uap-cpp
+    #download and compile uap-cpp
 
     if [ ! -d "$UAP_CPP_DESTINATION" ]; then
         fail_check git clone -b $UAP_CPP_BRANCH $UAP_CPP_REPO $UAP_CPP_DESTINATION
@@ -42,6 +42,7 @@ function DownloadLibs()
 
     pushd $UAP_CPP_DESTINATION
     fail_check git checkout $UAP_CPP_REV
+    fail_check make uaparser_cpp
     popd
 
     #download uap-core
@@ -59,14 +60,6 @@ function DownloadLibs()
 
 function CopyFiles()
 {
-    #links to ua-cpp files
-
-    pushd c_src
-    rm UaParser.*
-    ln -s ../$DEPS_LOCATION/$UAP_CPP_DESTINATION/UaParser.cpp UaParser.cc
-    ln -s ../$DEPS_LOCATION/$UAP_CPP_DESTINATION/UaParser.h UaParser.h
-    popd
-
     #copy regex file
 
     mkdir -p priv

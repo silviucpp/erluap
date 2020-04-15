@@ -6,21 +6,20 @@ This is the Erlang implementation of [ua-parser][1]. The implementation is a NIF
 
 In order to be able to compile properly make sure the following deps are available on your machine:
 
-- boost_regex
+- re2
 - yaml-cpp (0.5 API)
 
 On Mac Os you can install those using `brew` :
 
 ```bash
-brew install boost
+brew install re2
 brew install yaml-cpp
 ``` 
 
 On Ubuntu:
 
 ```bash
-sudo apt-get install libyaml-cpp-dev
-sudo apt-get install libboost-regex-dev
+sudo apt-get install libyaml-cpp-dev libre2-dev
 ```
 
 ##### Integration
