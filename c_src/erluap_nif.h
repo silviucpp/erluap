@@ -10,6 +10,10 @@ struct atoms
     ERL_NIF_TERM atomBadArg;
     ERL_NIF_TERM atomDevice;
     ERL_NIF_TERM atomAgent;
+    ERL_NIF_TERM atomUnknown;
+    ERL_NIF_TERM atomDesktop;
+    ERL_NIF_TERM atomMobile;
+    ERL_NIF_TERM atomTablet;
 };
 
 extern atoms ATOMS;

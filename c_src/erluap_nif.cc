@@ -2,18 +2,43 @@
 #include "nif_utils.h"
 #include "UaParser.h"
 
-#include <boost/exception/all.hpp>
-
 #define UNUSED(expr) do { (void)(expr); } while (0)
 
-const char kAtomNull[] = "null";
-const char kAtomError[] = "error";
-const char kAtomBadArg[] = "badarg";
-const char kAtomDevice[] = "device";
-const char kAtomAgent[] = "agent";
-
 atoms ATOMS;
-static uap_cpp::UserAgentParser* uap_ = NULL;
+
+namespace {
+
+constexpr const char kAtomNull[] = "null";
+constexpr const char kAtomError[] = "error";
+constexpr const char kAtomBadArg[] = "badarg";
+constexpr const char kAtomDevice[] = "device";
+constexpr const char kAtomAgent[] = "agent";
+constexpr const char kAtomUnknown[] = "unknown";
+constexpr const char kAtomDesktop[] = "desktop";
+constexpr const char kAtomMobile[] = "mobile";
+constexpr const char kAtomTablet[] = "tablet";
+
+uap_cpp::UserAgentParser* uap_ = nullptr;
+
+ERL_NIF_TERM devicetype2term(uap_cpp::DeviceType device_type)
+{
+    switch(device_type)
+    {
+        case uap_cpp::DeviceType::kUnknown:
+            return ATOMS.atomUnknown;
+
+        case uap_cpp::DeviceType::kDesktop:
+            return ATOMS.atomDesktop;
+
+        case uap_cpp::DeviceType::kMobile:
+            return ATOMS.atomMobile;
+
+        case uap_cpp::DeviceType::kTablet:
+            return ATOMS.atomTablet;
+    }
+}
+
+}
 
 int on_nif_load(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
 {
@@ -24,6 +49,10 @@ int on_nif_load(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
     ATOMS.atomBadArg = make_atom(env, kAtomBadArg);
     ATOMS.atomDevice = make_atom(env, kAtomDevice);
     ATOMS.atomAgent = make_atom(env, kAtomAgent);
+    ATOMS.atomUnknown = make_atom(env, kAtomUnknown);
+    ATOMS.atomDesktop = make_atom(env, kAtomDesktop);
+    ATOMS.atomMobile = make_atom(env, kAtomMobile);
+    ATOMS.atomTablet = make_atom(env, kAtomTablet);
 
     std::string regexes_path;
 
@@ -50,10 +79,11 @@ ERL_NIF_TERM make_bin_or_null(ErlNifEnv* env, const std::string& v)
     return make_binary(env, v.c_str(), v.length());
 }
 
-ERL_NIF_TERM create_device(ErlNifEnv* env, const uap_cpp::Device& d)
+ERL_NIF_TERM create_device(ErlNifEnv* env, uap_cpp::DeviceType device_type, const uap_cpp::Device& d)
 {
-    return enif_make_tuple4(env,
+    return enif_make_tuple5(env,
                             ATOMS.atomDevice,
+                            devicetype2term(device_type),
                             make_bin_or_null(env, d.family),
                             make_bin_or_null(env, d.model),
                             make_bin_or_null(env, d.brand));
@@ -82,25 +112,9 @@ ERL_NIF_TERM nif_parse(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     if(!uap_)
         return make_error(env, "user agent parser not instantiated");
 
-    try
-    {
-        uap_cpp::UserAgent ua = uap_->parse(user_agent);
-        return enif_make_tuple3(env, create_device(env, ua.device), create_agent(env, ua.os), create_agent(env, ua.browser));
-    }
-    catch (const std::exception& ex)
-    {
-        return make_error(env, ex.what());
-    }
-    catch (const boost::exception& e)
-    {
-        std::string error = boost::diagnostic_information_what(e);
-        return make_error(env, error.c_str());
-    }
-    catch (...)
-    {
-        return make_error(env, "unhandled exception");
-    }
-
+    uap_cpp::DeviceType device_type = uap_cpp::UserAgentParser::device_type(user_agent);
+    uap_cpp::UserAgent ua = uap_->parse(user_agent);
+    return enif_make_tuple3(env, create_device(env, device_type, ua.device), create_agent(env, ua.os), create_agent(env, ua.browser));
 }
 
 static ErlNifFunc nif_funcs[] = {
