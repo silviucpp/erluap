@@ -36,6 +36,8 @@ ERL_NIF_TERM devicetype2term(uap_cpp::DeviceType device_type)
         case uap_cpp::DeviceType::kTablet:
             return ATOMS.atomTablet;
     }
+
+    return ATOMS.atomUnknown;
 }
 
 }
