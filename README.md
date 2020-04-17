@@ -1,5 +1,9 @@
 This is the Erlang implementation of [ua-parser][1]. The implementation is a NIF wrapper around [uap-cpp][2]. 
 
+[![Build Status](https://travis-ci.org/silviucpp/erluap.svg?branch=master)](https://travis-ci.org/silviucpp/erluap)
+![GitHub](https://img.shields.io/github/license/silviucpp/erluap)
+![Hex.pm](https://img.shields.io/hexpm/v/erluap)
+
 ### Getting started:
 
 ##### Dependencies
