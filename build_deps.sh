@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+CPUS=`getconf _NPROCESSORS_ONLN 2>/dev/null || sysctl -n hw.ncpu`
+
 DEPS_LOCATION=deps
 
 UAP_CPP_REPO=https://github.com/ua-parser/uap-cpp.git
@@ -42,7 +44,7 @@ function DownloadLibs()
 
     pushd $UAP_CPP_DESTINATION
     fail_check git checkout $UAP_CPP_REV
-    fail_check make uaparser_cpp
+    fail_check make -j $(CPUS) uaparser_cpp
     popd
 
     #download uap-core
