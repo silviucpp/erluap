@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/silviucpp/erluap.svg?branch=master)](https://travis-ci.com/silviucpp/erluap)
+[![Build Status](https://travis-ci.com/silviucpp/erluap.svg?branch=master)](https://travis-ci.com/github/silviucpp/erluap)
 ![GitHub](https://img.shields.io/github/license/silviucpp/erluap)
 ![Hex.pm](https://img.shields.io/hexpm/v/erluap)
 
