@@ -2,7 +2,7 @@
     {description, "Erlang implementation of ua-parser based on uap-cpp"},
     {licenses, ["MIT"]},
     {links,[{"Github","https://github.com/silviucpp/erluap"}]},
-    {vsn, "1.2.1"},
+    {vsn, "1.2.2"},
     {registered, []},
     {applications, [
         kernel,
