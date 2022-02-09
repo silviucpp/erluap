@@ -44,7 +44,11 @@ function DownloadLibs()
 
     pushd $UAP_CPP_DESTINATION
     fail_check git checkout $UAP_CPP_REV
-    fail_check make -j $(CPUS) uaparser_cpp
+    mkdir build
+    pushd build
+    fail_check cmake -DCMAKE_CXX_FLAGS=-isystem\ /usr/local/include ..
+    fail_check make -j $(CPUS) uap-cpp-static
+    popd
     popd
 
     #download uap-core
