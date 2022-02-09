@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 CPUS=`getconf _NPROCESSORS_ONLN 2>/dev/null || sysctl -n hw.ncpu`
+OS=$(uname -s)
 
 DEPS_LOCATION=deps
 
@@ -46,7 +47,18 @@ function DownloadLibs()
     fail_check git checkout $UAP_CPP_REV
     mkdir build
     pushd build
-    fail_check cmake -DCMAKE_CXX_FLAGS=-isystem\ /usr/local/include ..
+
+    case $OS in
+        Darwin)
+            brew install re2 yaml-cpp
+            YAML_DIR=$(brew --prefix yaml-cpp)
+            RE2_DIR=$(brew --prefix re2)
+            fail_check cmake -DCMAKE_CXX_FLAGS=-I$YAML_DIR/include\ -I$RE2_DIR/include ..
+            ;;
+        *)
+            fail_check cmake ..
+    esac
+
     fail_check make -j $(CPUS) uap-cpp-static
     popd
     popd
