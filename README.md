@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/silviucpp/erluap.svg?branch=master)](https://travis-ci.com/github/silviucpp/erluap)
-![GitHub](https://img.shields.io/github/license/silviucpp/erluap)
-![Hex.pm](https://img.shields.io/hexpm/v/erluap)
+[![GitHub](https://img.shields.io/github/license/silviucpp/erluap)](https://github.com/silviucpp/erluap/blob/master/LICENSE)
+[![Hex.pm](https://img.shields.io/hexpm/v/erluap)](https://hex.pm/packages/erluap)
 
 This is the Erlang implementation of [ua-parser][1]. The implementation is a NIF wrapper around [uap-cpp][2]. 
 
