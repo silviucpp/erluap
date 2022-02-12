@@ -59,7 +59,7 @@ function DownloadLibs()
             fail_check cmake ..
     esac
 
-    fail_check make -j $(CPUS) uap-cpp-static
+    fail_check make -j $CPUS uap-cpp-static
     popd
     popd
 
