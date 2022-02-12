@@ -11,5 +11,3 @@ clean_nif:
 ct:
 	mkdir -p log
 	rebar3 ct --logdir log
-
-
