@@ -20,5 +20,5 @@ ifeq ($(UNAME_SYS), darwin)
 				-Wl,-U,_enif_make_tuple
 endif
 
-CXXFLAGS += -I ../deps/uap-cpp -DNDEBUG -g -Wextra -Werror -Wno-missing-field-initializers -std=c++11
-LDFLAGS += -L ../deps/uap-cpp/build -luaparser_cpp -lre2 -lyaml-cpp -lstdc++
+CXXFLAGS += -I ../_build/deps/uap-cpp -DNDEBUG -g -Wextra -Werror -Wno-missing-field-initializers -std=c++17
+LDFLAGS += -L ../_build/deps/uap-cpp/build -luaparser_cpp -lre2 -lyaml-cpp -lstdc++

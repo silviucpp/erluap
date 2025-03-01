@@ -1,50 +1,57 @@
-[![Build Status](https://travis-ci.com/silviucpp/erluap.svg?branch=master)](https://travis-ci.com/github/silviucpp/erluap)
+[![Build Status](https://app.travis-ci.com/silviucpp/erluap.svg?branch=master)](https://travis-ci.com/github/silviucpp/erluap)
 [![GitHub](https://img.shields.io/github/license/silviucpp/erluap)](https://github.com/silviucpp/erluap/blob/master/LICENSE)
 [![Hex.pm](https://img.shields.io/hexpm/v/erluap)](https://hex.pm/packages/erluap)
 
-This is the Erlang implementation of [ua-parser][1]. The implementation is a NIF wrapper around [uap-cpp][2]. 
+# erluap - Erlang User-Agent Parser
 
-### Getting started:
+This is the Erlang implementation of [ua-parser][1]. It provides a NIF wrapper around [uap-cpp][2] for efficient user-agent parsing.
 
-##### Dependencies
+## Getting Started
 
-In order to be able to compile properly make sure the following deps are available on your machine:
+### Dependencies
 
-- re2
-- yaml-cpp (0.5 API)
+Ensure the following dependencies are installed before compiling:
 
-On Mac Os you can install those using `brew` :
+- `re2`
+- `yaml-cpp` (0.5 API)
+
+##### MacOS Installation
+
+You can install the required dependencies using Homebrew:
 
 ```bash
 brew install re2 yaml-cpp
-``` 
+```
 
-On Ubuntu:
+##### Ubuntu Installation
+
+On Ubuntu, install the dependencies using APT:
 
 ```bash
 sudo apt-get install libyaml-cpp-dev libre2-dev
 ```
 
-##### Integration
+### Integration
 
-The application is compatible with both `rebar` or `rebar3`. Add `erluap` as a rebar dependency to your project:
+To add it as a dependency in your project, include the following in your `rebar.config`:
 
-```
+```erlang
 {deps, [
-  {erluap, ".*", {git, "https://github.com/silviucpp/erluap.git", "master"}},
-}.
+  {erluap, ".*", {git, "https://github.com/silviucpp/erluap.git", "master"}}
+]}.
 ```
 
-##### Update user agents regexes
+### Updating User-Agent Regexes
 
-The file using user agents regular expressions is part of [uap-core][3]. In order to update this file you can modify
-`UAP_CORE_REV` inside `build_deps.sh`
+The user-agent regex definitions are sourced from [uap-core][3]. To update them, modify `UAP_CORE_REV` inside `build_deps.sh` and rebuild.
 
-### API
+---
 
-##### Parse as records
+## API
 
-Records are described in `erluap.hrl` as follow:
+### Parsing as records
+
+erluap returns parsed data as records. The structures are defined in `erluap.hrl`:
 
 ```erlang
 -record(device, {
@@ -63,7 +70,7 @@ Records are described in `erluap.hrl` as follow:
 }).
 ```
 
-The parsing method returns a tuple as follow `{Device::#device{}, Os::#agent{}, Browser::#agent{}}` :
+The `parse/1` function returns a tuple `{Device::#device{}, Os::#agent{}, Browser::#agent{}}`:
 
 ```erlang
 erluap:parse(<<"Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148">>).
@@ -73,12 +80,13 @@ erluap:parse(<<"Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebK
  {agent,<<"Mobile Safari UI/WKWebView">>,null,null,null,null}}
 ```
 
-##### Parse as proplist
+### Parsing as proplist
 
-There is possible to parse the result as proplist using `erluap:parse_as_proplist/1` :
+erluap can also return parsed data as a proplist using `erluap:parse_as_proplist/1`:
 
 ```erlang
 erluap:parse_as_proplist(<<"Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148">>).
+
 [{device,[{device_type,mobile},
           {family,<<"iPhone">>},
           {model,<<"iPhone">>},
@@ -95,15 +103,26 @@ erluap:parse_as_proplist(<<"Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS 
            {version_patch_minor,null}]}]
 ```
 
-###### Check if a device is a crowler
+### Detecting Crawlers (Spiders)
 
-In order to check if a device is a crowler (spider) you cam check is device family is equal with `<<"Spider">>` or just use
-the method `erluap:is_spider/1`
+To check if a user-agent is a web crawler (spider), verify if the device family is `<<"Spider">>` or use the helper function:
 
-### Tests
+```erlang
+erluap:is_spider(UserAgent).
+```
 
-In order to run the tests just use `make ct` from project root after you compiled and got the deps using `rebar`
+---
 
-[1]:https://github.com/ua-parser
-[2]:https://github.com/ua-parser/uap-cpp
-[3]:https://github.com/ua-parser/uap-core
+## Running Tests
+
+To execute the test suite run:
+
+```bash
+make ct
+```
+
+---
+
+[1]: https://github.com/ua-parser
+[2]: https://github.com/ua-parser/uap-cpp
+[3]: https://github.com/ua-parser/uap-core

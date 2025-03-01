@@ -3,9 +3,9 @@
 -include("erluap.hrl").
 -include_lib("stdlib/include/assert.hrl").
 
--define(TEST_DEVICE, <<"../../deps/uap-core/tests/test_device.yaml">>).
--define(TEST_OS, <<"../../deps/uap-core/tests/test_os.yaml">>).
--define(TEST_UA, <<"../../deps/uap-core/tests/test_ua.yaml">>).
+-define(TEST_DEVICE, <<"../../_build/deps/uap-core/tests/test_device.yaml">>).
+-define(TEST_OS, <<"../../_build/deps/uap-core/tests/test_os.yaml">>).
+-define(TEST_UA, <<"../../_build/deps/uap-core/tests/test_ua.yaml">>).
 
 -compile(export_all).
 
