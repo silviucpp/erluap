@@ -17,8 +17,6 @@ load_nif() ->
 
     case filelib:file_size(Regexes) > 0 of
         true ->
-            io:format(<<"Loading library: ~p~n">>, [SoName]),
-            io:format(<<"Use regexp file: ~p~n">>, [Regexes]),
             ok = erlang:load_nif(SoName, Regexes);
         _ ->
             throw({error, <<"Regex file not available: ", Regexes/binary>>})
